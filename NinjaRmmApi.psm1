@@ -205,6 +205,5 @@ Function Get-NinjaRmmDevices
 		$Request = "/v2/organization/$OrgId/devices"
 	}
 	
-	
 	Return (Send-NinjaRmmApi -RequestToSend $Request)
 }
