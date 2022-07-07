@@ -17,30 +17,32 @@ with NinjaRmmApi.  If not, see <https://www.gnu.org/licenses/>.
 #>
 
 @{
-	RootModule = 'NinjaRmmApi.psm1'
-	ModuleVersion = '1.0.2'
+	RootModule		     = 'NinjaRmmApi.psm1'
+	ModuleVersion	     = '1.0.3'
 	CompatiblePSEditions = @('Desktop', 'Core')
-	PowerShellVersion = '5.1'
-	GUID = 'aaa3b5ab-8861-4ce4-b0aa-f2089dee9cf2'
-	Author = 'Colin Cogle'
-	Copyright = '(c) 2020-2021 Colin Cogle. All rights reserved. Licensed under the AGPL version 3.'
-	Description = 'An unofficial PowerShell module to interact with NinjaRMM.'
-	FunctionsToExport = @(
+	PowerShellVersion    = '5.1'
+	GUID				 = 'aaa3b5ab-8861-4ce4-b0aa-f2089dee9cf2'
+	Author			     = 'Wade Dickens'
+	Copyright		     = '(c) 2020-2021 Wade Dickens. All rights reserved. Licensed under the AGPL version 3.'
+	Description		     = 'An unofficial PowerShell module to interact with NinjaRMM.'
+	FunctionsToExport    = @(
 		'Get-NinjaRmmAlerts',
-		'Get-NinjaRmmCustomers',
+		'Get-NinjaRmmOrganizations',
 		'Get-NinjaRmmDevices',
+		'Get-NinjaRmmPolicies',
+		'Get-NinjaRmmSoftware',
 		'Reset-NinjaRmmAlert',
 		'Reset-NinjaRmmSecrets',
 		'Set-NinjaRmmSecrets',
 		'Set-NinjaRmmServerLocation'
 	)
-	CmdletsToExport = @()
-	VariablesToExport = ''
-	AliasesToExport = @(
+	CmdletsToExport	     = @()
+	VariablesToExport    = ''
+	AliasesToExport	     = @(
 		'Remove-NinjaRmmAlert',
 		'Remove-NinjaRmmSecrets'
 	)
-	FileList = @(
+	FileList			 = @(
 		'en-US/about_NinjaRmmApi.help.txt',
 		'en-US/NinjaRmmApi-help.xml',
 		'CHANGELOG.md',
@@ -51,16 +53,15 @@ with NinjaRmmApi.  If not, see <https://www.gnu.org/licenses/>.
 		'NinjaRmmApi.psm1',
 		'README.md'
 	)
-	PrivateData = @{
+	PrivateData		     = @{
 		PSData = @{
 			Tags = @('Ninja', 'NinjaRMM', 'RMM', 'API', 'computers', 'devices', 'alerts', 'customers', 'REST', 'Windows', 'cloud', 'network', 'macOS')
-			LicenseUri = 'https://github.com/rhymeswithmogul/NinjaRMM-PowerShell/blob/main/LICENSE'
-			ProjectUri = 'https://github.com/rhymeswithmogul/NinjaRMM-PowerShell/'
-			IconUri = 'https://raw.githubusercontent.com/rhymeswithmogul/NinjaRMM-PowerShell/main/NinjaRmmApi.png'
-			ReleaseNotes = 'https://github.com/rhymeswithmogul/NinjaRMM-PowerShell/blob/main/NEWS'
+			LicenseUri = 'https://github.com/wade8421/NinjaRMM-PowerShell/blob/main/LICENSE'
+			ProjectUri = 'https://github.com/wade8421/NinjaRMM-PowerShell/'
+			IconUri = 'https://raw.githubusercontent.com/wade8421/NinjaRMM-PowerShell/main/NinjaRmmApi.png'
+			ReleaseNotes = 'https://github.com/wade8421/NinjaRMM-PowerShell/blob/main/NEWS'
 			Prerelease = ''
 			RequireLicenseAcceptance = $false
 		}
 	}
 }
-
