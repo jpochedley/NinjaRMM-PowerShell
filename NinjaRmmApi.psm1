@@ -16,36 +16,38 @@ You should have received a copy of the GNU Affero General Public License along
 with NinjaRmmApi.  If not, see <https://www.gnu.org/licenses/>.
 #>
 
-Function Set-NinjaRmmSecrets {
+Function Set-NinjaRmmSecrets
+{
 	[OutputType('void')]
-	Param(
+	Param (
 		[AllowNull()]
-		[String] $AccessKeyId,
-
+		[String]$AccessKeyId,
 		[AllowNull()]
-		[String] $SecretAccessKey
+		[String]$SecretAccessKey
 	)
-
-	$env:NinjaRmmAccessKeyID     = $AccessKeyId
+	
+	$env:NinjaRmmAccessKeyID = $AccessKeyId
 	$env:NinjaRmmSecretAccessKey = $SecretAccessKey
 }
 
-Function Reset-NinjaRmmSecrets {
+Function Reset-NinjaRmmSecrets
+{
 	[Alias('Remove-NinjaRmmSecrets')]
 	[OutputType('void')]
-	Param()
-
+	Param ()
+	
 	Remove-Variable -Name $env:NinjaRmmAccessKeyID
 	Remove-Variable -Name $env:NinjaRmmSecretAccessKey
 }
 
-Function Set-NinjaRmmServerLocation {
+Function Set-NinjaRmmServerLocation
+{
 	[OutputType('void')]
-	Param(
+	Param (
 		[ValidateSet('US', 'EU')]
-		[String] $Location = 'US'
+		[String]$Location = 'US'
 	)
-
+	
 	$env:NinjaRmmServerLocation = $Location
 }
 
@@ -138,48 +140,53 @@ Function Send-NinjaRmmApi
 	Return (Invoke-RestMethod @Arguments)
 }
 
-Function Get-NinjaRmmAlerts {
-	[CmdletBinding(DefaultParameterSetName='AllAlerts')]
-	Param(
-		[Parameter(ParameterSetName='OneAlert')]
-		[UInt32] $AlertId,
-
-		[Parameter(ParameterSetName='AllAlertsSince')]
-		[UInt32] $Since
+Function Get-NinjaRmmAlerts
+{
+	[CmdletBinding(DefaultParameterSetName = 'AllAlerts')]
+	Param (
+		[Parameter(ParameterSetName = 'OneAlert')]
+		[UInt32]$AlertId,
+		[Parameter(ParameterSetName = 'AllAlertsSince')]
+		[UInt32]$Since
 	)
-
+	
 	$Request = '/v2/alerts'
-	If ($PSCmdlet.ParameterSetName -eq 'OneAlert') {
+	If ($PSCmdlet.ParameterSetName -eq 'OneAlert')
+	{
 		$Request += "/$AlertId"
 	}
-	ElseIf ($PSCmdlet.ParameterSetName -eq 'AllAlertsSince') {
+	ElseIf ($PSCmdlet.ParameterSetName -eq 'AllAlertsSince')
+	{
 		$Request += "/since/$Since"
 	}
-
+	
 	Return (Send-NinjaRmmApi -RequestToSend $Request)
 }
 
-Function Reset-NinjaRmmAlert {
+Function Reset-NinjaRmmAlert
+{
 	[CmdletBinding()]
 	[Alias('Remove-NinjaRmmAlert')]
-	Param(
+	Param (
 		[Parameter(Mandatory)]
-		[UInt32] $AlertId
+		[UInt32]$AlertId
 	)
-
+	
 	Return (Send-NinjaRmmApi -Method 'DELETE' -RequestToSend "/v2/alerts/$AlertId")
 }
 
-Function Get-NinjaRmmCustomers {
-	[CmdletBinding(DefaultParameterSetName='AllCustomers')]
-	Param(
-		[Parameter(ParameterSetName='OneCustomer')]
-		[UInt32] $CustomerId
+Function Get-NinjaRmmOrganizations
+{
+	[CmdletBinding(DefaultParameterSetName = 'AllOrganizations')]
+	Param (
+		[Parameter(ParameterSetName = 'OneOrganization')]
+		[UInt32]$OrganizationId
 	)
-
-	$Request = '/v2/customers'
-	If ($PSCmdlet.ParameterSetName -eq 'OneCustomer') {
-		$Request += "/$CustomerId"
+	
+	$Request = '/v2/organizations'
+	If ($PSCmdlet.ParameterSetName -eq 'OneOrganization')
+	{
+		$Request = "/v2/organization/$OrganizationId"
 	}
 	Return (Send-NinjaRmmApi -RequestToSend $Request)
 }
@@ -205,5 +212,40 @@ Function Get-NinjaRmmDevices
 		$Request = "/v2/organization/$OrgId/devices"
 	}
 	
+	Return (Send-NinjaRmmApi -RequestToSend $Request)
+}
+
+Function Get-NinjaRmmPolicies
+{
+	[CmdletBinding(DefaultParameterSetName = 'AllPolicies')]
+	Param (
+		[Parameter(ParameterSetName = 'OnePolicy')]
+		[UInt32]$PolicyId
+	)
+	
+	$Request = '/v2/policies'
+	If ($PSCmdlet.ParameterSetName -eq 'OnePolicy')
+	{
+		$Request += "/$PolicyId"
+	}
+	Return (Send-NinjaRmmApi -RequestToSend $Request)
+}
+
+Function Get-NinjaRmmSoftware
+{
+	[CmdletBinding(DefaultParameterSetName = 'AllSoftware')]
+	Param (
+		[Parameter(Mandatory = $true)]
+		[UInt32]$DeviceId,
+		[Parameter(ParameterSetName = 'OneSoftware')]
+		[UInt32]$SoftwareId
+	)
+	
+	$Request = "/v2/device/$DeviceId/software"
+	Write-Host "Request: $Request"
+	If ($PSCmdlet.ParameterSetName -eq 'OneSoftware')
+	{
+		$Request += "/$SoftwareId"
+	}
 	Return (Send-NinjaRmmApi -RequestToSend $Request)
 }
